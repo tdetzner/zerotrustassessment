@@ -135,6 +135,11 @@ as
 
 	$database = Connect-Database -Path $dbPath -PassThru
 
+	trap {
+		Disconnect-Database -Database $database
+		throw $_
+	}
+
 	if ($Pillar -in ('All', 'Identity')) {
 		Import-EntraTable -Database $database -ExportPath $ExportPath -TableName 'User'
 		Import-EntraTable -Database $database -ExportPath $ExportPath -TableName 'Application'
@@ -156,6 +161,7 @@ as
 
 	if ($Pillar -in ('All', 'Devices')) {
 		Import-EntraTable -Database $database -ExportPath $ExportPath -TableName 'Device'
+		Import-EntraTable -Database $database -ExportPath $ExportPath -TableName 'ConfigurationPolicy'
 	}
 
 	$database

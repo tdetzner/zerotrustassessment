@@ -137,5 +137,9 @@ function Export-TenantData {
 		Export-GraphEntity -ExportPath $ExportPath -EntityName 'Device' `
 			-EntityUri 'beta/devices' -ProgressActivity 'Devices' `
 			-QueryString '$top=999' -ShowCount
+
+		Export-GraphEntity -ExportPath $ExportPath -EntityName 'ConfigurationPolicy' `
+			-EntityUri 'beta/deviceManagement/configurationPolicies' -ProgressActivity 'Configuration Policies' `
+			-QueryString '$expand=assignments,settings' # Note: $count not supported on this endpoint
 	}
 }
